@@ -4,43 +4,43 @@ import Input from './Input';
 export default class InputForm extends React.Component {
   constructor(props) {
     super(props);
-    this.placeholders = ['Название', 'Количество', '% отклонения'];
-    this.onValueChange = this.onValueChange.bind(this);
-    this.state = { name: '', ammount: '', percent: '', total: 0 };
+    this.state = { total: 0 };
+    this.data = { name: '', ammount: '', percent: '' };
+    this.inputs = [
+      { name: 'name', placeholder: 'Название' },
+      { name: 'ammount', placeholder: 'Количество' },
+      { name: 'percent', placeholder: '% отклонения' }];
+
+    this.onValueChange = this.valueChange.bind(this);
   }
 
-  onValueChange(e, inputName) {
-    e.preventDefault();
-    const value = parseFloat(e.target.value);
-    if (Number.isNaN(value)) {
-      
+  valueChange(event, inputName) {
+    event.preventDefault();
+    this.data[inputName] = event.target.value;
+    if (inputName !== 'name') {
+      this.updateTotal();
     }
-    const total = this.state.ammount + (this.state.ammount * (this.state.percent / 100));
-    if (inputName === 'name') {
-      this.setState({ name: value });
-    } else {
-      this.setState({ [inputName]: parseInt(value, 10) });
-      this.setState({ total });
+  }
+
+  updateTotal() {
+    const ammount = this.data.ammount === '' ? 0 : parseFloat(this.data.ammount);
+    const percent = this.data.percent === '' ? 0 : parseFloat(this.data.percent);
+
+    if (!Number.isNaN(ammount) && !Number.isNaN(percent)) {
+      const total = ammount + (ammount * (percent / 100));
+      this.setState({ total: total });
     }
-    // this.props.dataUpdate(this.state);
   }
 
   render() {
+    const inputList = this.inputs.map((input) => 
+    <Input name={input.name}
+    inputName={input.placeholder}
+    changeHolder={this.onValueChange} />);
     return <form>
-      <Input name="name"
-        value={this.state.name}
-        inputName={this.placeholders[0]}
-        changeHolder={this.onValueChange} />
-      <Input name="ammount"
-        value={this.state.ammount}
-        inputName={this.placeholders[1]}
-        changeHolder={this.onValueChange} />
-      <Input name="percent"
-        value={this.state.percent}
-        inputName={this.placeholders[2]}
-        changeHolder={this.onValueChange} />
+      {inputList}
       <span>Итого: </span>
-      <span>{this.state.total}</span>
+      <span>{this.state.total} г</span>
     </form>
   }
 }
