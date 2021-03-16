@@ -22,6 +22,9 @@ export default class App extends React.Component {
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
       { name: 'percent', placeholder: '% отклонения' }];
+    // this.dbinst = db
+    //   .get('recipies')
+    //   .value();
 
     this.onValueChange = this.valueChange.bind(this);
   }
@@ -42,9 +45,7 @@ export default class App extends React.Component {
       const total = ammount + (ammount * (percent / 100));
       const newTotalArr = this.state.total.slice(0);
       newTotalArr.splice(index, 1, total);
-      console.log(this.state.total)
       this.setState({ total: newTotalArr });
-      console.log(this.state.total)
     }
   }
 
