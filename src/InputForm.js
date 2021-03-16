@@ -34,9 +34,10 @@ export default class InputForm extends React.Component {
 
   render() {
     const inputList = this.inputs.map((input) => 
-    <Input name={input.name}
-    inputName={input.placeholder}
-    changeHolder={this.onValueChange} />);
+    <Input key={input.name}
+      name={input.name}
+      inputName={input.placeholder}
+      changeHolder={this.onValueChange} />);
     return <form>
       {inputList}
       <span>Итого: </span>
