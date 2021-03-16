@@ -5,6 +5,6 @@ export default class Input extends React.Component {
     return <input 
       type="text" 
       placeholder={this.props.inputName}
-      onChange={(e) => this.props.changeHolder(e, this.props.name)}/>;
+      onChange={(e) => this.props.changeHolder(e, this.props.name, this.props.id)}/>;
   }
 }
