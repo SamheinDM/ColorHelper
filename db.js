@@ -4,11 +4,10 @@ const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
 
-function create() {
-  db.get('recipies')
-  .push({ name: '1'})
-  .write();
-  console.log('f')
+function getDefault() {
+  return db.get('recipies')
+    .find({ name: 'default' })
+    .value();
 }
 
-module.exports.create = create;
+module.exports.getDefault = getDefault;

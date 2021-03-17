@@ -1,12 +1,22 @@
-import logo from './logo.svg';
 import React from 'react';
 import InputForm from './InputForm';
-import './App.css';
+import './App.css'; 
+import { ipcRenderer } from 'electron';
+
+// const electron = window.require('electron');
+// const ipcRenderer = electron.ipcRenderer;
 
 export default class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = { total: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] };
+    ipcRenderer.send('get-default-data');
+    this.defaultData = null;
+    ipcRenderer.on('send-default-data', (_event, data) => { 
+      this.defaultData = data;
+      console.log(this.defaultData);
+     });
+
     this.data = [
       { name: '', ammount: '', percent: '' },
       { name: '', ammount: '', percent: '' },
