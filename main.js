@@ -41,12 +41,12 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
-function getDefaultData() {
-    return dbAPI.getDefault();
-}
-
 ipcMain.on('get-default-data', (event) => {
-    event.returnValue = getDefaultData();
+    event.returnValue = dbAPI.getDefault();
+});
+
+ipcMain.on('save-recipe', (event, data) => {
+    dbAPI.saveRecipe(data);
 });
 
 // Quit when all windows are closed.

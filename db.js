@@ -10,4 +10,11 @@ function getDefault() {
     .value();
 }
 
+function saveRecipe(data) {
+  db.get('recipies')
+    .push(data)
+    .write();
+}
+
 module.exports.getDefault = getDefault;
+module.exports.saveRecipe = saveRecipe;

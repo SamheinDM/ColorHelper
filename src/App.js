@@ -11,8 +11,10 @@ export default class App extends React.Component {
     super(props);
     this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.state = { total: this.defaultData.data.map(el => el.total) };
+    this.state = { total: this.defaultData.data.map(el => el.total),
+      recipe_name: this.defaultData.name };
 
+    this.name = '';
     this.data = this.defaultData.data;
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
@@ -20,6 +22,7 @@ export default class App extends React.Component {
       { name: 'percent', placeholder: '% отклонения' }];
 
     this.onValueChange = this.valueChange.bind(this);
+    this.onSaveRecipe = this.saveRecipe.bind(this);
   }
 
   valueChange(event, inputName, index) {
@@ -42,6 +45,10 @@ export default class App extends React.Component {
     }
   }
 
+  saveRecipe() {
+    ipcRenderer.send('save-recipe', { name: this.name, data: this.data });
+  }
+
   render () {
     const inputFormsList = this.data.map((_form, id) => 
       <InputForm 
@@ -53,9 +60,9 @@ export default class App extends React.Component {
     );
 
     return <div className="App">
-      <h1>{ this.defaultData.name === 'default' ? 'Новый рецепт' : 0 }</h1>
+      <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : 0 }</h1>
       {inputFormsList}
-      <button>Сохранить</button>
+      <button onClick={this.onSaveRecipe} >Сохранить</button>
       <button>Очистить</button>
       <button>Открыть</button>
     </div>
