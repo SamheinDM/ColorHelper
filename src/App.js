@@ -2,6 +2,7 @@ import React from 'react';
 import InputForm from './InputForm';
 import './App.css'; 
 import { ipcRenderer } from 'electron';
+import { stat } from 'original-fs';
 
 // const electron = window.require('electron');
 // const ipcRenderer = electron.ipcRenderer;
@@ -11,8 +12,10 @@ export default class App extends React.Component {
     super(props);
     this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.state = { total: this.defaultData.data.map(el => el.total),
-      recipe_name: this.defaultData.name };
+    this.state = { 
+      total: this.defaultData.data.map(el => el.total),
+      recipe_name: this.defaultData.name,
+      data: this.defaultData.data };
 
     this.name = '';
     this.data = this.defaultData.data;
@@ -23,19 +26,29 @@ export default class App extends React.Component {
 
     this.onValueChange = this.valueChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
+    this.onClearRecipe = this.clearRecipe.bind(this);
   }
 
   valueChange(event, inputName, index) {
     event.preventDefault();
-    this.data[index][inputName] = event.target.value;
+    const value = event.target.value;
+    this.setState({ data: this.state.data.map((el, i) => {
+        if (i === index) {
+          el[inputName] = value;
+          return el;
+        }
+        return el;
+      })
+    });
+
     if (inputName !== 'name') {
       this.updateTotal(index);
     }
   }
   
   updateTotal(index) {
-    const ammount = this.data[index].ammount === '' ? 0 : parseFloat(this.data[index].ammount);
-    const percent = this.data[index].percent === '' ? 0 : parseFloat(this.data[index].percent);
+    const ammount = this.state.data[index].ammount === '' ? 0 : parseFloat(this.state.data[index].ammount);
+    const percent = this.state.data[index].percent === '' ? 0 : parseFloat(this.state.data[index].percent);
   
     if (!Number.isNaN(ammount) && !Number.isNaN(percent)) {
       const total = ammount + (ammount * (percent / 100));
@@ -46,15 +59,23 @@ export default class App extends React.Component {
   }
 
   saveRecipe() {
-    ipcRenderer.send('save-recipe', { name: this.name, data: this.data });
+    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
+  }
+
+  clearRecipe() {
+    this.setState({ 
+      total: this.defaultData.data.map(el => el.total),
+      recipe_name: this.defaultData.name,
+      data: this.defaultData.data });
   }
 
   render () {
-    const inputFormsList = this.data.map((_form, id) => 
+    const inputFormsList = this.state.data.map((form, id) => 
       <InputForm 
         id={id}
         key={id}
-        inputs={this.inputs} 
+        inputs={this.inputs}
+        values={form}
         onValueChange={this.onValueChange} 
         total={this.state.total[id]} />
     );
@@ -63,7 +84,7 @@ export default class App extends React.Component {
       <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : 0 }</h1>
       {inputFormsList}
       <button onClick={this.onSaveRecipe} >Сохранить</button>
-      <button>Очистить</button>
+      <button onClick={this.onClearRecipe}>Очистить</button>
       <button>Открыть</button>
     </div>
   };
