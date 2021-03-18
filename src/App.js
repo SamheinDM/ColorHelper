@@ -9,32 +9,15 @@ import { ipcRenderer } from 'electron';
 export default class App extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { total: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] };
-    ipcRenderer.send('get-default-data');
-    this.defaultData = null;
-    ipcRenderer.on('send-default-data', (_event, data) => { 
-      this.defaultData = data;
-      console.log(this.defaultData);
-     });
+    this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.data = [
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' },
-      { name: '', ammount: '', percent: '' }];
+    this.state = { total: this.defaultData.data.map(el => el.total) };
+
+    this.data = this.defaultData.data;
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
       { name: 'percent', placeholder: '% отклонения' }];
-    // this.dbinst = db
-    //   .get('recipies')
-    //   .value();
 
     this.onValueChange = this.valueChange.bind(this);
   }
@@ -70,6 +53,7 @@ export default class App extends React.Component {
     );
 
     return <div className="App">
+      <h1>{ this.defaultData.name === 'default' ? 'Новый рецепт' : 0 }</h1>
       {inputFormsList}
       <button>Сохранить</button>
       <button>Очистить</button>

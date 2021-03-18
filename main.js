@@ -5,9 +5,6 @@ const ipcMain = electron.ipcMain;
 
 const dbAPI = require('./db');
 
-const path = require('path');
-const url = require('url');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -18,7 +15,8 @@ function createWindow() {
         width: 800, 
         height: 600,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false // read contextBridge
         }
     });
 
@@ -48,7 +46,7 @@ function getDefaultData() {
 }
 
 ipcMain.on('get-default-data', (event) => {
-    event.reply('send-default-data', getDefaultData());
+    event.returnValue = getDefaultData();
 });
 
 // Quit when all windows are closed.
