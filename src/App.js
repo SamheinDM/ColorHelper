@@ -2,23 +2,15 @@ import React from 'react';
 import InputForm from './InputForm';
 import './App.css'; 
 import { ipcRenderer } from 'electron';
-import { stat } from 'original-fs';
-
-// const electron = window.require('electron');
-// const ipcRenderer = electron.ipcRenderer;
 
 export default class App extends React.Component {
   constructor (props) {
     super(props);
     this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.state = { 
-      total: this.defaultData.data.map(el => el.total),
-      recipe_name: this.defaultData.name,
-      data: this.defaultData.data };
+    this.state = this.getDefaultState();
 
     this.name = '';
-    this.data = this.defaultData.data;
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
@@ -62,11 +54,15 @@ export default class App extends React.Component {
     ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
   }
 
-  clearRecipe() {
-    this.setState({ 
+  getDefaultState() {
+    return { 
       total: this.defaultData.data.map(el => el.total),
       recipe_name: this.defaultData.name,
-      data: this.defaultData.data });
+      data: this.defaultData.data.map(el => Object.assign({}, el)) };
+  }
+
+  clearRecipe() {
+    this.setState(this.getDefaultState());
   }
 
   render () {
