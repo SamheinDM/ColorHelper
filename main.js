@@ -49,6 +49,10 @@ ipcMain.on('save-recipe', (event, data) => {
     dbAPI.saveRecipe(data);
 });
 
+ipcMain.on('get-recipies-list', (event) => {
+    event.returnValue = dbAPI.getRecipiesList();
+});
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar

@@ -16,5 +16,12 @@ function saveRecipe(data) {
     .write();
 }
 
+function getRecipiesList() {
+  return db.get('recipies')
+    .map(el => el.name !== 'default' ? el.name : null)
+    .value();
+}
+
 module.exports.getDefault = getDefault;
 module.exports.saveRecipe = saveRecipe;
+module.exports.getRecipiesList = getRecipiesList;
