@@ -18,10 +18,35 @@ function saveRecipe(data) {
 
 function getRecipiesList() {
   return db.get('recipies')
-    .map(el => el.name !== 'default' ? el.name : null)
+    .filter(el => el.name === 'default' ? false : true)
+    .map(el => el.name)
     .value();
+}
+
+function getRecipe(recipeName) {
+  return db.get('recipies')
+    .find({ name: recipeName })
+    .value();
+}
+
+function updateRecipe(recipe) {
+  db.get('recipies')
+    .find({ name: recipe.name })
+    .assign({ 
+      name: recipe.name,
+      data: recipe.data.map(el => Object.assign({}, el)) })
+    .write();
+}
+
+function deleteRecipe(recipeName) {
+  db.get('recipies')
+    .remove({ name: recipeName })
+    .write();
 }
 
 module.exports.getDefault = getDefault;
 module.exports.saveRecipe = saveRecipe;
 module.exports.getRecipiesList = getRecipiesList;
+module.exports.getRecipe = getRecipe;
+module.exports.updateRecipe = updateRecipe;
+module.exports.deleteRecipe = deleteRecipe;

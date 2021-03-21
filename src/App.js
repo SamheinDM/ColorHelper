@@ -10,7 +10,7 @@ export default class App extends React.Component {
 
     this.state = this.getDefaultState();
 
-    this.name = '';
+    this.name = 'Первый';
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
@@ -19,6 +19,7 @@ export default class App extends React.Component {
     this.onValueChange = this.valueChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
     this.onClearRecipe = this.clearRecipe.bind(this);
+    this.onOpen = this.getRecipiesList.bind(this);
   }
 
   valueChange(event, inputName, index) {
@@ -51,7 +52,7 @@ export default class App extends React.Component {
   }
 
   saveRecipe() {
-    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
+    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data }); // ! total not saved correctly !
   }
 
   getDefaultState() {
@@ -63,6 +64,10 @@ export default class App extends React.Component {
 
   clearRecipe() {
     this.setState(this.getDefaultState());
+  }
+
+  getRecipiesList() {
+    console.log(ipcRenderer.sendSync('get-recipies-list'));
   }
 
   render () {
@@ -77,11 +82,11 @@ export default class App extends React.Component {
     );
 
     return <div className="App">
-      <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : 0 }</h1>
+      <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : this.state.recipe_name }</h1>
       {inputFormsList}
       <button onClick={this.onSaveRecipe} >Сохранить</button>
       <button onClick={this.onClearRecipe}>Очистить</button>
-      <button>Открыть</button>
+      <button onClick={this.onOpen}>Открыть</button>
     </div>
   };
 }

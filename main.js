@@ -45,11 +45,24 @@ ipcMain.on('get-default-data', (event) => {
     event.returnValue = dbAPI.getDefault();
 });
 
-ipcMain.on('save-recipe', (event, data) => {
+ipcMain.on('save-recipe', (_event, data) => {
     dbAPI.saveRecipe(data);
 });
 
 ipcMain.on('get-recipies-list', (event) => {
+    event.returnValue = dbAPI.getRecipiesList();
+});
+
+ipcMain.on('get-recipe', (event, recipeName) => {
+    event.returnValue = dbAPI.getRecipe(recipeName);
+});
+
+ipcMain.on('update-recipe', (_event, data) => {
+    dbAPI.updateRecipe(data);
+});
+
+ipcMain.on('delete-recipe', (event, recipe) => {
+    dbAPI.deleteRecipe(recipe);
     event.returnValue = dbAPI.getRecipiesList();
 });
 
