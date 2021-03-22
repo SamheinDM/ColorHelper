@@ -1,5 +1,3 @@
-import React from 'react';
-
-export default class Button extends React.Component {
-
+export default function Button (props) {
+  return <button onClick={props.clickHandler}>{props.name}</button>;
 }

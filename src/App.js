@@ -1,6 +1,7 @@
 import React from 'react';
 import InputForm from './InputForm';
 import RecipiesList from './RecipiesList';
+import Button from './Button';
 import './App.css'; 
 import { ipcRenderer } from 'electron';
 
@@ -87,13 +88,13 @@ export default class App extends React.Component {
       <div>
         <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : this.state.recipe_name }</h1>
         {inputFormsList}
-        <button onClick={this.onSaveRecipe} >Сохранить</button>
-        <button onClick={this.onClearRecipe}>Очистить</button>
+        <Button clickHandler={this.onSaveRecipe} name={'Сохранить'}/>
+        <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>
       </div>
       <div className="right_panel">
         <RecipiesList recipies={ipcRenderer.sendSync('get-recipies-list')}/>
         <div>
-          <button onClick={this.onOpen}>Открыть</button>
+          <Button clickHandler={this.onOpen} name={'Открыть'}/>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import RecipeElement from './RecipeElement';
 
 export default class RecipiesList extends React.Component {
   render () {
-    const elemList = this.props.recipies.map(el => <RecipeElement name={ el } />);
+    const elemList = this.props.recipies.map(el => <RecipeElement name={ el } key={ el } />);
 
     return (
       <div>
