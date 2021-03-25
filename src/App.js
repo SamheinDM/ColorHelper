@@ -13,6 +13,7 @@ export default class App extends React.Component {
     this.state = this.getDefaultState();
 
     this.name = 'Первый';
+    this.chosenRecipe = '';
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
@@ -21,7 +22,8 @@ export default class App extends React.Component {
     this.onValueChange = this.valueChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
     this.onClearRecipe = this.clearRecipe.bind(this);
-    this.onOpen = this.getRecipiesList.bind(this);
+    this.onOpen = this.openRecipe.bind(this);
+    this.onChooseRecipe = this.choseRecipe.bind(this);
   }
 
   valueChange(event, inputName, index) {
@@ -72,6 +74,14 @@ export default class App extends React.Component {
     console.log(ipcRenderer.sendSync('get-recipies-list'));
   }
 
+  openRecipe() {
+    console.log(ipcRenderer.sendSync('get-recipe'));
+  }
+
+  choseRecipe(name) {
+    this.chosenRecipe = name;
+  }
+
   render () {
     const inputFormsList = this.state.data.map((form, id) => 
       <InputForm 
@@ -92,7 +102,9 @@ export default class App extends React.Component {
         <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>
       </div>
       <div className="right_panel">
-        <RecipiesList recipies={ipcRenderer.sendSync('get-recipies-list')}/>
+        <RecipiesList 
+          recipies={ipcRenderer.sendSync('get-recipies-list')}
+          onChoose={this.onChooseRecipe}/>
         <div>
           <Button clickHandler={this.onOpen} name={'Открыть'}/>
         </div>
