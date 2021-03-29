@@ -5,6 +5,7 @@ import Button from './Button';
 import './App.css'; 
 import { ipcRenderer } from 'electron';
 import ErrorMessage from './ErrorMessage';
+import Modal from './Modal';
 
 export default class App extends React.Component {
   constructor (props) {
@@ -13,8 +14,8 @@ export default class App extends React.Component {
 
     this.state = this.getDefaultState();
 
-    this.name = 'Первый';
     this.chosenRecipe = '';
+    this.modalMessage = '';
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
       { name: 'ammount', placeholder: 'Количество' },
@@ -29,7 +30,11 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('already-exist', (_event) => console.log('already exist!'));
+    ipcRenderer.on('already-exist', (_event) => {
+      console.log('already exist!');
+      this.modalMessage = 'Рецепт с таким именем уже существует, перезаписать его?';
+      this.setState((_state) => ({ show_modal: true }));
+    });
     ipcRenderer.on('recipe-saved', (_event, name) => {
       this.setState((_state) => ({ recipe_name: name }));
     });
@@ -86,7 +91,8 @@ export default class App extends React.Component {
       recipe_name: this.defaultData.name,
       data: this.defaultData.data.map(el => Object.assign({}, el)),
       recipe_chosen: true,
-      show_err_msg: false };
+      show_err_msg: false,
+      show_modal: false };
   }
 
   clearRecipe() {
@@ -138,6 +144,9 @@ export default class App extends React.Component {
           <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_chosen}/>
         </div>
       </div>
+      <Modal 
+        isShow={this.state.show_modal}
+        message={this.modalMessage}/>
     </div>
     );
   };
