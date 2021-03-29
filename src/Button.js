@@ -1,3 +1,3 @@
 export default function Button (props) {
-  return <button onClick={props.clickHandler}>{props.name}</button>;
+  return <button onClick={props.clickHandler} disabled={props.isDisabled}>{props.name}</button>;
 }

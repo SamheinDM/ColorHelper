@@ -26,17 +26,21 @@ export default class App extends React.Component {
     this.onChooseRecipe = this.choseRecipe.bind(this);
   }
 
+  renewDataState(paramName, index, newValue) {
+    this.setState({ data: this.state.data.map((el, i) => {
+      if (i === index) {
+        el[paramName] = newValue;
+        return el;
+      }
+      return el;
+    })
+  });
+  }
+
   valueChange(event, inputName, index) {
     event.preventDefault();
     const value = event.target.value;
-    this.setState({ data: this.state.data.map((el, i) => {
-        if (i === index) {
-          el[inputName] = value;
-          return el;
-        }
-        return el;
-      })
-    });
+    this.renewDataState(inputName, index, value);
 
     if (inputName !== 'name') {
       this.updateTotal(index);
@@ -49,21 +53,19 @@ export default class App extends React.Component {
   
     if (!Number.isNaN(ammount) && !Number.isNaN(percent)) {
       const total = ammount + (ammount * (percent / 100));
-      const newTotalArr = this.state.total.slice(0);
-      newTotalArr.splice(index, 1, total);
-      this.setState({ total: newTotalArr });
+      this.renewDataState('total', index, total);
     }
   }
 
   saveRecipe() {
-    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data }); // ! total not saved correctly !
+    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
   }
 
   getDefaultState() {
     return { 
-      total: this.defaultData.data.map(el => el.total),
       recipe_name: this.defaultData.name,
-      data: this.defaultData.data.map(el => Object.assign({}, el)) };
+      data: this.defaultData.data.map(el => Object.assign({}, el)),
+      recipe_chosen: true };
   }
 
   clearRecipe() {
@@ -71,15 +73,16 @@ export default class App extends React.Component {
   }
 
   getRecipiesList() {
-    console.log(ipcRenderer.sendSync('get-recipies-list'));
+    return ipcRenderer.sendSync('get-recipies-list');
   }
 
   openRecipe() {
-    console.log(ipcRenderer.sendSync('get-recipe'));
+    console.log(ipcRenderer.sendSync('get-recipe', this.chosenRecipe));
   }
 
-  choseRecipe(name) {
-    this.chosenRecipe = name;
+  choseRecipe(event) {
+    this.setState({ recipe_chosen: false });
+    this.chosenRecipe = event.target.textContent;
   }
 
   render () {
@@ -90,7 +93,7 @@ export default class App extends React.Component {
         inputs={this.inputs}
         values={form}
         onValueChange={this.onValueChange} 
-        total={this.state.total[id]} />
+        total={this.state.data[id].total} />
     );
 
     return (
@@ -103,10 +106,10 @@ export default class App extends React.Component {
       </div>
       <div className="right_panel">
         <RecipiesList 
-          recipies={ipcRenderer.sendSync('get-recipies-list')}
+          recipies={this.getRecipiesList()}
           onChoose={this.onChooseRecipe}/>
         <div>
-          <Button clickHandler={this.onOpen} name={'Открыть'}/>
+          <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_chosen}/>
         </div>
       </div>
     </div>

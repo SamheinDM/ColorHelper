@@ -129,6 +129,71 @@
           "total": 0
         }
       ]
+    },
+    {
+      "name": "default",
+      "data": [
+        {
+          "name": "dfg",
+          "ammount": "4",
+          "percent": "",
+          "total": 4
+        },
+        {
+          "name": "//kjhk",
+          "ammount": "10",
+          "percent": "5",
+          "total": 10.5
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        },
+        {
+          "name": "",
+          "ammount": "",
+          "percent": "",
+          "total": 0
+        }
+      ]
     }
   ]
 }

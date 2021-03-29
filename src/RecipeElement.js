@@ -5,7 +5,7 @@ export default class RecipeElement extends React.Component {
     return (
       <div 
         className="recipies_list_elem" 
-        onClick={(e)this.props.onClick}>
+        onClick={(e) => this.props.onClick(e)}>
         {this.props.name}
       </div>
     );
