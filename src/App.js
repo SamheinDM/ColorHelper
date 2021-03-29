@@ -4,6 +4,7 @@ import RecipiesList from './RecipiesList';
 import Button from './Button';
 import './App.css'; 
 import { ipcRenderer } from 'electron';
+import ErrorMessage from './ErrorMessage';
 
 export default class App extends React.Component {
   constructor (props) {
@@ -20,10 +21,18 @@ export default class App extends React.Component {
       { name: 'percent', placeholder: '% отклонения' }];
 
     this.onValueChange = this.valueChange.bind(this);
+    this.onNameChange = this.nameChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
     this.onClearRecipe = this.clearRecipe.bind(this);
     this.onOpen = this.openRecipe.bind(this);
     this.onChooseRecipe = this.choseRecipe.bind(this);
+  }
+
+  componentDidMount() {
+    ipcRenderer.on('already-exist', (_event) => console.log('already exist!'));
+    ipcRenderer.on('recipe-saved', (_event, name) => {
+      this.setState((_state) => ({ recipe_name: name }));
+    });
   }
 
   renewDataState(paramName, index, newValue) {
@@ -35,6 +44,10 @@ export default class App extends React.Component {
       return el;
     })
   });
+  }
+
+  nameChange(event) {
+    this.setState({ recipe_name: event.target.value });
   }
 
   valueChange(event, inputName, index) {
@@ -58,14 +71,22 @@ export default class App extends React.Component {
   }
 
   saveRecipe() {
-    ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
+    if (this.state.recipe_name === '') {
+      this.setState({ show_err_msg: true });
+    } else {
+      if (this.state.show_err_msg) {
+        this.setState({ show_err_msg: false });
+      }
+      ipcRenderer.send('save-recipe', { name: this.state.recipe_name, data: this.state.data });
+    }
   }
 
   getDefaultState() {
     return { 
       recipe_name: this.defaultData.name,
       data: this.defaultData.data.map(el => Object.assign({}, el)),
-      recipe_chosen: true };
+      recipe_chosen: true,
+      show_err_msg: false };
   }
 
   clearRecipe() {
@@ -99,7 +120,12 @@ export default class App extends React.Component {
     return (
     <div className="App">
       <div>
-        <h1>{ this.state.recipe_name === 'default' ? 'Новый рецепт' : this.state.recipe_name }</h1>
+        <input 
+          type="text"
+          placeholder="Название рецепта"
+          value={ this.state.recipe_name === 'default' ? 'Новый рецепт' : this.state.recipe_name }
+          onChange={this.onNameChange}/>
+        <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
         {inputFormsList}
         <Button clickHandler={this.onSaveRecipe} name={'Сохранить'}/>
         <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>

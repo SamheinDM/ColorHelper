@@ -45,8 +45,13 @@ ipcMain.on('get-default-data', (event) => {
     event.returnValue = dbAPI.getDefault();
 });
 
-ipcMain.on('save-recipe', (_event, data) => {
-    dbAPI.saveRecipe(data);
+ipcMain.on('save-recipe', (event, data) => {
+    if (dbAPI.getRecipe(data.name) === undefined) {
+        dbAPI.saveRecipe(data);
+        event.reply('recipe-saved', data.name);
+    } else {
+        event.reply('already-exist');
+    }
 });
 
 ipcMain.on('get-recipies-list', (event) => {
