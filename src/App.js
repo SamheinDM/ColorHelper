@@ -24,14 +24,16 @@ export default class App extends React.Component {
     this.onValueChange = this.valueChange.bind(this);
     this.onNameChange = this.nameChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
+    this.onUpdateRecipe = this.updateRecipe.bind(this);
     this.onClearRecipe = this.clearRecipe.bind(this);
     this.onOpen = this.openRecipe.bind(this);
     this.onChooseRecipe = this.choseRecipe.bind(this);
+    this.onDeleteRecipe = this.deleteRecipe.bind(this);
+    this.onCloseModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
     ipcRenderer.on('already-exist', (_event) => {
-      console.log('already exist!');
       this.modalMessage = 'Рецепт с таким именем уже существует, перезаписать его?';
       this.setState((_state) => ({ show_modal: true }));
     });
@@ -86,11 +88,16 @@ export default class App extends React.Component {
     }
   }
 
+  updateRecipe() {
+    ipcRenderer.send('update-recipe', { name: this.state.recipe_name, data: this.state.data });
+    this.closeModal();
+  }
+
   getDefaultState() {
     return { 
-      recipe_name: this.defaultData.name,
+      recipe_name: '',
       data: this.defaultData.data.map(el => Object.assign({}, el)),
-      recipe_chosen: true,
+      recipe_not_chosen: true,
       show_err_msg: false,
       show_modal: false };
   }
@@ -104,12 +111,27 @@ export default class App extends React.Component {
   }
 
   openRecipe() {
-    console.log(ipcRenderer.sendSync('get-recipe', this.chosenRecipe));
+    const openedRecipe = ipcRenderer.sendSync('get-recipe', this.chosenRecipe);
+
+    this.setState({ 
+      recipe_name: openedRecipe.name,
+      data: openedRecipe.data.map(el => Object.assign({}, el))
+     });
   }
 
   choseRecipe(event) {
-    this.setState({ recipe_chosen: false });
+    this.setState({ recipe_not_chosen: false });
     this.chosenRecipe = event.target.textContent;
+  }
+
+  deleteRecipe() {
+    ipcRenderer.send('delete-recipe', this.chosenRecipe);
+    this.chosenRecipe = '';
+    this.setState({ recipe_not_chosen: true });
+  }
+
+  closeModal() {
+    this.setState({ show_modal: false });
   }
 
   render () {
@@ -129,7 +151,7 @@ export default class App extends React.Component {
         <input 
           type="text"
           placeholder="Название рецепта"
-          value={ this.state.recipe_name === 'default' ? 'Новый рецепт' : this.state.recipe_name }
+          value={ this.state.recipe_name }
           onChange={this.onNameChange}/>
         <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
         {inputFormsList}
@@ -141,12 +163,15 @@ export default class App extends React.Component {
           recipies={this.getRecipiesList()}
           onChoose={this.onChooseRecipe}/>
         <div>
-          <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_chosen}/>
+          <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_not_chosen}/>
+          <Button clickHandler={this.onDeleteRecipe} name={'Удалить'} isDisabled={this.state.recipe_not_chosen}/>
         </div>
       </div>
       <Modal 
         isShow={this.state.show_modal}
-        message={this.modalMessage}/>
+        message={this.modalMessage}
+        okHandler={this.onUpdateRecipe}
+        cancelHandler={this.onCloseModal}/>
     </div>
     );
   };

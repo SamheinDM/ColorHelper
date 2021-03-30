@@ -66,9 +66,8 @@ ipcMain.on('update-recipe', (_event, data) => {
     dbAPI.updateRecipe(data);
 });
 
-ipcMain.on('delete-recipe', (event, recipe) => {
+ipcMain.on('delete-recipe', (_event, recipe) => {
     dbAPI.deleteRecipe(recipe);
-    event.returnValue = dbAPI.getRecipiesList();
 });
 
 // Quit when all windows are closed.
