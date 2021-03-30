@@ -5,8 +5,9 @@ export default class RecipiesList extends React.Component {
   render () {
     const elemList = this.props.recipies.map(el => (
     <RecipeElement 
-      name={ el } 
       key={ el }
+      name={ el }
+      active={ el === this.props.activeEl }
       onClick={this.props.onChoose} />));
 
     return (

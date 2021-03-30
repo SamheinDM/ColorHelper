@@ -12,4 +12,8 @@
 .right_panel {
   width: 30%;
 }
+
+.selected {
+  background-color: aliceblue;
+}
 /*# sourceMappingURL=App.css.map */

@@ -161,6 +161,7 @@ export default class App extends React.Component {
       <div className="right_panel">
         <RecipiesList 
           recipies={this.getRecipiesList()}
+          activeEl={this.chosenRecipe}
           onChoose={this.onChooseRecipe}/>
         <div>
           <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_not_chosen}/>
