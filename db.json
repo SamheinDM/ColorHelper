@@ -131,13 +131,13 @@
       ]
     },
     {
-      "name": "1",
+      "name": "Первый",
       "data": [
         {
-          "name": "",
-          "ammount": "",
+          "name": "456",
+          "ammount": "546",
           "percent": "",
-          "total": 0
+          "total": 546
         },
         {
           "name": "",
@@ -158,7 +158,7 @@
           "total": 0
         },
         {
-          "name": "",
+          "name": "hgh",
           "ammount": "",
           "percent": "",
           "total": 0
@@ -196,13 +196,13 @@
       ]
     },
     {
-      "name": "Первый",
+      "name": "1",
       "data": [
         {
-          "name": "456",
-          "ammount": "546",
-          "percent": "",
-          "total": 546
+          "name": "fh",
+          "ammount": "45",
+          "percent": "-95",
+          "total": 2.25
         },
         {
           "name": "",
@@ -223,7 +223,7 @@
           "total": 0
         },
         {
-          "name": "hgh",
+          "name": "",
           "ammount": "",
           "percent": "",
           "total": 0

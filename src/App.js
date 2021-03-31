@@ -12,7 +12,7 @@ export default class App extends React.Component {
     super(props);
     this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.state = this.getDefaultState();
+    this.state = Object.assign({}, this.getDefaultState(), { recipe_not_chosen: true, show_modal: false });
 
     this.chosenRecipe = '';
     this.modalMessage = '';
@@ -97,9 +97,7 @@ export default class App extends React.Component {
     return { 
       recipe_name: '',
       data: this.defaultData.data.map(el => Object.assign({}, el)),
-      recipe_not_chosen: true,
-      show_err_msg: false,
-      show_modal: false };
+      show_err_msg: false };
   }
 
   clearRecipe() {
