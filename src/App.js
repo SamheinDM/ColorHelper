@@ -15,6 +15,7 @@ export default class App extends React.Component {
     this.state = Object.assign({}, this.getDefaultState(), { recipe_not_chosen: true, show_modal: false });
 
     this.chosenRecipe = '';
+    this.modalHandler = '';
     this.modalMessage = '';
     this.inputs = [
       { name: 'name', placeholder: 'Название' },
@@ -31,11 +32,11 @@ export default class App extends React.Component {
     this.onChooseRecipe = this.choseRecipe.bind(this);
     this.onDeleteRecipe = this.deleteRecipe.bind(this);
     this.onCloseModal = this.closeModal.bind(this);
+    this.onOpenModal = this.openModal.bind(this);
   }
 
   componentDidMount() {
     ipcRenderer.on('already-exist', (_event) => {
-      this.modalMessage = 'Рецепт с таким именем уже существует, перезаписать его?';
       this.setState((_state) => ({ show_modal: true }));
     });
     ipcRenderer.on('recipe-saved', (_event, name) => {
@@ -127,10 +128,30 @@ export default class App extends React.Component {
     this.chosenRecipe = event.target.textContent;
   }
 
+  openModal(event) {
+    const buttonName = event.target.textContent;
+    switch(buttonName) {
+      case 'Сохранить':
+        this.modalHandler = this.onUpdateRecipe;
+        this.modalMessage = 'Рецепт с таким именем уже существует, перезаписать его?';
+        this.saveRecipe();
+        break;
+      case 'Удалить':
+        this.modalHandler = this.onDeleteRecipe;
+        this.modalMessage = 'Вы точно хотите удалить рецепт? Восстановить его будет невозможно.';
+        this.setState((_state) => ({ show_modal: true }));
+        break;
+      default:
+        break;
+    }
+  }
+
   deleteRecipe() {
     ipcRenderer.send('delete-recipe', this.chosenRecipe);
     this.chosenRecipe = '';
-    this.setState({ recipe_not_chosen: true });
+    this.setState({ 
+      recipe_not_chosen: true,
+      show_modal: false });
   }
 
   closeModal() {
@@ -179,7 +200,7 @@ export default class App extends React.Component {
             name={'Открыть'} 
             isDisabled={this.state.recipe_not_chosen}/>
           <Button 
-            clickHandler={this.onDeleteRecipe} 
+            clickHandler={this.onOpenModal} 
             name={'Удалить'} 
             isDisabled={this.state.recipe_not_chosen}
             isRed={true}/>
@@ -188,7 +209,7 @@ export default class App extends React.Component {
       <Modal 
         isShow={this.state.show_modal}
         message={this.modalMessage}
-        okHandler={this.onUpdateRecipe}
+        okHandler={this.modalHandler}
         cancelHandler={this.onCloseModal}/>
     </div>
     );
