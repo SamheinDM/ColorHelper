@@ -31,10 +31,44 @@ span, input, button, div {
   display: flex;
   flex-direction: column;
 
-  .recipe_name {
+  .recipe_name_wrapper {
+    width: 100%;
     margin: 15px;
-    font-size: 32px;
-    font-family: robotoregular;
+    display: inline-block;
+    position: relative;
+
+    .recipe_name {
+      width: 90%;
+      font-size: 32px;
+      font-family: robotoregular;
+    }
+
+    .error_msg {
+      top: 100%;
+      left: 50%;
+      margin-left: -120px; 
+      width: 240px;
+      background-color: #ff2e2e;
+      color: #fff;
+      text-align: center;
+      font-size: 18px;
+      padding: 5px 0;
+      border-radius: 6px;
+   
+      position: absolute;
+      z-index: 1;
+    }
+
+    .error_msg::after {
+      content: " ";
+      position: absolute;
+      bottom: 100%; 
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent #ff2e2e transparent;
+    }
   }
 
   .input_forms_wrapper {
@@ -107,7 +141,7 @@ span, input, button, div {
     background-color: $primary-button-color;
     border: none;
     color: $primary-button-text-color;
-    margin: 0 10px;
+    margin: 0 15px;
     padding: 10px;
     text-align: center;
     transition-duration: 0.4s;
@@ -152,5 +186,50 @@ span, input, button, div {
     background: $primary-button-color;
     box-shadow: 0 5px 15px $primary-shadow-button-color;
     color: $primary-button-text-color;
+  }
+}
+
+.modal_window_wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.288);
+
+  .modal_window {
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    background-color: #888;
+    border: solid 1px black;
+    box-shadow: 0 5px 15px #000;
+
+    .modal_message {
+      margin: 16px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+
+  }
+
+  .modal_window::before {
+    content: 'Внимание!';
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    font-family: robotobold;
+    background-color: #da7840;
+    border-bottom: solid 1px black;
   }
 }

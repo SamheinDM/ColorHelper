@@ -22,6 +22,7 @@ export default class App extends React.Component {
       { name: 'percent', placeholder: '% отклонения' }];
 
     this.onValueChange = this.valueChange.bind(this);
+    this.onHideErrorMsg = this.hideErrorMsg.bind(this);
     this.onNameChange = this.nameChange.bind(this);
     this.onSaveRecipe = this.saveRecipe.bind(this);
     this.onUpdateRecipe = this.updateRecipe.bind(this);
@@ -51,6 +52,10 @@ export default class App extends React.Component {
       return el;
     })
   });
+  }
+
+  hideErrorMsg() {
+    this.setState({ show_err_msg: false });
   }
 
   nameChange(event) {
@@ -146,18 +151,20 @@ export default class App extends React.Component {
     return (
     <div className="App">
       <div className="left_panel">
-        <input 
-          type="text"
-          className="recipe_name"
-          placeholder="Название рецепта"
-          value={ this.state.recipe_name }
-          onChange={this.onNameChange}/>
-        <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
+        <div className="recipe_name_wrapper">
+          <input 
+            type="text"
+            className="recipe_name"
+            placeholder="Название рецепта"
+            value={ this.state.recipe_name }
+            onChange={this.onNameChange}/>
+          <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
+        </div>
         <div className="input_forms_wrapper">
           {inputFormsList}
         </div>
         <div className="buttons_wrapper">
-          <Button clickHandler={this.onSaveRecipe} name={'Сохранить'}/>
+          <Button clickHandler={this.onSaveRecipe} name={'Сохранить'} onBlur={this.onHideErrorMsg}/>
           <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>
         </div>
       </div>
