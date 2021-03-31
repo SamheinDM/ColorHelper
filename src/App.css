@@ -141,6 +141,7 @@ span, input, button, div {
 }
 
 .buttons_wrapper .button {
+  min-width: 100px;
   text-align: center;
   text-transform: uppercase;
   cursor: pointer;
@@ -193,7 +194,22 @@ span, input, button, div {
   outline: 0;
 }
 
-.buttons_wrapper .inactive {
+.buttons_wrapper .red {
+  background-color: #cc1a1a;
+  -webkit-box-shadow: 0 5px 15px #471919;
+          box-shadow: 0 5px 15px #471919;
+}
+
+.buttons_wrapper .red:hover {
+  -webkit-box-shadow: 0px 2px 10px 5px #ee1c1c;
+          box-shadow: 0px 2px 10px 5px #ee1c1c;
+}
+
+.buttons_wrapper .red::after {
+  background: #ee1c1c;
+}
+
+.buttons_wrapper .inactive, .buttons_wrapper .inactive_red {
   cursor: unset;
   opacity: 0.4;
 }
@@ -203,6 +219,12 @@ span, input, button, div {
   -webkit-box-shadow: 0 5px 15px #193047;
           box-shadow: 0 5px 15px #193047;
   color: #fff;
+}
+
+.buttons_wrapper .inactive_red:hover {
+  background: #cc1a1a;
+  -webkit-box-shadow: 0 5px 15px #471919;
+          box-shadow: 0 5px 15px #471919;
 }
 
 .modal_window_wrapper {

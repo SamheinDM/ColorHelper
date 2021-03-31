@@ -174,8 +174,15 @@ export default class App extends React.Component {
           activeEl={this.chosenRecipe}
           onChoose={this.onChooseRecipe}/>
         <div className="buttons_wrapper">
-          <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_not_chosen}/>
-          <Button clickHandler={this.onDeleteRecipe} name={'Удалить'} isDisabled={this.state.recipe_not_chosen}/>
+          <Button 
+            clickHandler={this.onOpen} 
+            name={'Открыть'} 
+            isDisabled={this.state.recipe_not_chosen}/>
+          <Button 
+            clickHandler={this.onDeleteRecipe} 
+            name={'Удалить'} 
+            isDisabled={this.state.recipe_not_chosen}
+            isRed={true}/>
         </div>
       </div>
       <Modal 

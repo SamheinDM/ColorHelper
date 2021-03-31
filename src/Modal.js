@@ -11,7 +11,7 @@ export default class Modal extends React.Component {
               {this.props.message}
             </p>
             <div className="buttons_wrapper">
-              <Button clickHandler={this.props.okHandler} name="Да"/>
+              <Button clickHandler={this.props.okHandler} name="Да" isRed={true}/>
               <Button clickHandler={this.props.cancelHandler} name="Нет"/>
             </div>
           </div>

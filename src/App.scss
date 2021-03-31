@@ -11,6 +11,10 @@ $recipies-list-bacground: #fff;
 $recipies-list-selected: #2e68e6;
 $recipies-list-hover: #2e68e688;
 $recipies-list-selected-text: #fff;
+$primary-red-button-color: #cc1a1a;
+$primary-red-shadow-button-color: #471919;
+$hover-red-shadow-button-color: #ee1c1c;
+$primary-red-button-after-color: #ee1c1c;
 
 body {
   background-color: #555;
@@ -132,6 +136,7 @@ span, input, button, div {
   flex-direction: row;
 
   .button {
+    min-width: 100px;
     text-align: center;
     text-transform: uppercase;
     cursor: pointer;
@@ -176,8 +181,21 @@ span, input, button, div {
   }
   
   .button:focus { outline:0; }
+  
+  .red {
+    background-color: $primary-red-button-color;
+    box-shadow: 0 5px 15px $primary-red-shadow-button-color;
+  }
+  
+  .red:hover {
+    box-shadow: 0px 2px 10px 5px $hover-red-shadow-button-color;
+  }
+  
+  .red::after {
+    background: $primary-red-button-after-color;
+  }
 
-  .inactive {
+  .inactive, .inactive_red {
     cursor: unset;
     opacity: 0.4;
   }
@@ -186,6 +204,11 @@ span, input, button, div {
     background: $primary-button-color;
     box-shadow: 0 5px 15px $primary-shadow-button-color;
     color: $primary-button-text-color;
+  }
+
+  .inactive_red:hover {
+    background: $primary-red-button-color;
+    box-shadow: 0 5px 15px $primary-red-shadow-button-color;
   }
 }
 
