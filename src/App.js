@@ -2,7 +2,7 @@ import React from 'react';
 import InputForm from './InputForm';
 import RecipiesList from './RecipiesList';
 import Button from './Button';
-import './App.css'; 
+import './App.css';
 import { ipcRenderer } from 'electron';
 import ErrorMessage from './ErrorMessage';
 import Modal from './Modal';
@@ -145,23 +145,28 @@ export default class App extends React.Component {
 
     return (
     <div className="App">
-      <div>
+      <div className="left_panel">
         <input 
           type="text"
+          className="recipe_name"
           placeholder="Название рецепта"
           value={ this.state.recipe_name }
           onChange={this.onNameChange}/>
         <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
-        {inputFormsList}
-        <Button clickHandler={this.onSaveRecipe} name={'Сохранить'}/>
-        <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>
+        <div className="input_forms_wrapper">
+          {inputFormsList}
+        </div>
+        <div className="buttons_wrapper">
+          <Button clickHandler={this.onSaveRecipe} name={'Сохранить'}/>
+          <Button clickHandler={this.onClearRecipe} name={'Очистить'}/>
+        </div>
       </div>
       <div className="right_panel">
         <RecipiesList 
           recipies={this.getRecipiesList()}
           activeEl={this.chosenRecipe}
           onChoose={this.onChooseRecipe}/>
-        <div>
+        <div className="buttons_wrapper">
           <Button clickHandler={this.onOpen} name={'Открыть'} isDisabled={this.state.recipe_not_chosen}/>
           <Button clickHandler={this.onDeleteRecipe} name={'Удалить'} isDisabled={this.state.recipe_not_chosen}/>
         </div>

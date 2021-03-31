@@ -1,4 +1,15 @@
+@charset "UTF-8";
+@import url(./fonts.css);
+body {
+  background-color: #555;
+}
+
+span, input, button, div {
+  font-family: robotoregular;
+}
+
 .App {
+  height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6,14 +17,158 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  background-color: #555;
+}
+
+.left_panel {
+  width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.left_panel .recipe_name {
+  margin: 15px;
+  font-size: 32px;
+  font-family: robotoregular;
+}
+
+.left_panel .input_forms_wrapper {
+  margin: 0 0 15px 15px;
+}
+
+.left_panel .input_forms_wrapper .main_input {
+  font-size: 17px;
+}
+
+.left_panel .input_forms_wrapper input[placeholder="Количество"], .left_panel .input_forms_wrapper input[placeholder="% отклонения"] {
+  width: 120px;
+}
+
+.left_panel .input_forms_wrapper .total {
+  margin-left: 10px;
+  font-size: 17px;
+  font-family: robotobold;
 }
 
 .right_panel {
   width: 30%;
+  padding: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-left: solid 1px #000;
 }
 
-.selected {
-  background-color: aliceblue;
+.right_panel .recipies_list {
+  width: 95%;
+  height: 80vh;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border: solid 2px #000;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.right_panel .recipies_list .recipies_list_elem {
+  cursor: pointer;
+}
+
+.right_panel .recipies_list .recipies_list_elem:hover {
+  background-color: #2e68e688;
+}
+
+.right_panel .recipies_list .selected {
+  background-color: #2e68e6;
+  color: #fff;
+}
+
+.right_panel .recipies_list .selected:hover {
+  background-color: #2e68e6;
+}
+
+.buttons_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.buttons_wrapper .button {
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: robotobold;
+  position: relative;
+  background-color: #16a085;
+  border: none;
+  color: #fff;
+  margin: 0 10px;
+  padding: 10px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s;
+          transition-duration: 0.4s;
+  overflow: hidden;
+  -webkit-box-shadow: 0 5px 15px #193047;
+          box-shadow: 0 5px 15px #193047;
+}
+
+.buttons_wrapper .button:hover {
+  background: #fff;
+  -webkit-box-shadow: 0px 2px 10px 5px #1abc9c;
+          box-shadow: 0px 2px 10px 5px #1abc9c;
+  color: #000;
+}
+
+.buttons_wrapper .button:after {
+  content: "";
+  background: #1abc9c;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  -webkit-transition: all 0.8s;
+  transition: all 0.8s;
+}
+
+.buttons_wrapper .button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  -webkit-transition: 0s;
+  transition: 0s;
+}
+
+.buttons_wrapper .button:focus {
+  outline: 0;
+}
+
+.buttons_wrapper .inactive {
+  cursor: unset;
+  opacity: 0.4;
+}
+
+.buttons_wrapper .inactive:hover {
+  background: #16a085;
+  -webkit-box-shadow: 0 5px 15px #193047;
+          box-shadow: 0 5px 15px #193047;
+  color: #fff;
 }
 /*# sourceMappingURL=App.css.map */

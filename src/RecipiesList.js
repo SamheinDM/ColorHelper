@@ -11,7 +11,7 @@ export default class RecipiesList extends React.Component {
       onClick={this.props.onChoose} />));
 
     return (
-      <div>
+      <div className="recipies_list">
         {elemList}
       </div>
     );
