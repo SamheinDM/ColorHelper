@@ -32,11 +32,13 @@ export default class App extends React.Component {
     this.onChooseRecipe = this.choseRecipe.bind(this);
     this.onDeleteRecipe = this.deleteRecipe.bind(this);
     this.onCloseModal = this.closeModal.bind(this);
-    this.onOpenModal = this.openModal.bind(this);
+    this.onDeletionModal = this.deleteionModal.bind(this);
   }
 
   componentDidMount() {
     ipcRenderer.on('already-exist', (_event) => {
+      this.modalHandler = this.onUpdateRecipe;
+      this.modalMessage = 'Рецепт с таким названием уже существует. Перезаписать его?';
       this.setState((_state) => ({ show_modal: true }));
     });
     ipcRenderer.on('recipe-saved', (_event, name) => {
@@ -128,22 +130,10 @@ export default class App extends React.Component {
     this.chosenRecipe = event.target.textContent;
   }
 
-  openModal(event) {
-    const buttonName = event.target.textContent;
-    switch(buttonName) {
-      case 'Сохранить':
-        this.modalHandler = this.onUpdateRecipe;
-        this.modalMessage = 'Рецепт с таким именем уже существует, перезаписать его?';
-        this.saveRecipe();
-        break;
-      case 'Удалить':
-        this.modalHandler = this.onDeleteRecipe;
-        this.modalMessage = 'Вы точно хотите удалить рецепт? Восстановить его будет невозможно.';
-        this.setState((_state) => ({ show_modal: true }));
-        break;
-      default:
-        break;
-    }
+  deleteionModal() {
+    this.modalHandler = this.onDeleteRecipe;
+    this.modalMessage = 'Вы точно хотите удалить рецепт? Восстановить его будет невозможно.';
+    this.setState((_state) => ({ show_modal: true }));
   }
 
   deleteRecipe() {
@@ -200,7 +190,7 @@ export default class App extends React.Component {
             name={'Открыть'} 
             isDisabled={this.state.recipe_not_chosen}/>
           <Button 
-            clickHandler={this.onOpenModal} 
+            clickHandler={this.onDeletionModal} 
             name={'Удалить'} 
             isDisabled={this.state.recipe_not_chosen}
             isRed={true}/>
