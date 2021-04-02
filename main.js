@@ -12,8 +12,10 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 900, 
+        width: 1000, 
         height: 700,
+        frame: false,
+        resizable: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false // read contextBridge
@@ -24,6 +26,7 @@ function createWindow() {
     // mainWindow.loadURL('http://localhost:3000');
     mainWindow.loadFile('./build/index.html');
 
+    mainWindow.removeMenu();
     // Open the DevTools.
     // mainWindow.webContents.openDevTools();
 
