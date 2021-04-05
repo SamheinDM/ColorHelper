@@ -1,9 +1,82 @@
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const path = require('path');
+const fs = require('fs');
+const os = require('os');
 
-const adapter = new FileSync(path.join(__dirname, '/db.json'))
+fs.openSync(path.join(os.homedir(), '/db.json'), 'a+')
+const adapter = new FileSync(path.join(os.homedir(), '/db.json'))
 const db = low(adapter)
+
+db.defaults({ 
+  recipies: [
+    {
+      name: "default",
+      data: [
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        },
+        {
+          name: "",
+          ammount: "",
+          percent: "",
+          total: 0
+        }
+      ]
+    }
+  ] })
+  .write()
 
 function getDefault() {
   return db.get('recipies')
