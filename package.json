@@ -2,7 +2,7 @@
   "author": "Maxim",
   "description": "Application for calculations color",
   "name": "color-helper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
