@@ -129,6 +129,18 @@ span, input, button, div {
       background-color: $recipies-list-selected;
     }
   }
+
+  .recipies_list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .recipies_list::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+  }
+
+  .recipies_list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .buttons_wrapper {

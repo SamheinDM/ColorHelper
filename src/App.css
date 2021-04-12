@@ -130,6 +130,18 @@ span, input, button, div {
   background-color: #2e68e6;
 }
 
+.right_panel .recipies_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.right_panel .recipies_list::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+}
+
+.right_panel .recipies_list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .buttons_wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
