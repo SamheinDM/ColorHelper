@@ -22,7 +22,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1000, 
         height: 700,
-        resizable: false,
+        minWidth: 1000,
+        minHeight: 700,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false // read contextBridge

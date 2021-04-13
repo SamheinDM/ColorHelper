@@ -6,13 +6,17 @@ import './App.css';
 import { ipcRenderer } from 'electron';
 import ErrorMessage from './ErrorMessage';
 import Modal from './Modal';
+import Input from './Input';
 
 export default class App extends React.Component {
   constructor (props) {
     super(props);
     this.defaultData = ipcRenderer.sendSync('get-default-data');
 
-    this.state = Object.assign({}, this.getDefaultState(), { recipe_not_chosen: true, show_modal: false });
+    this.state = Object.assign({}, this.getDefaultState(), { 
+      recipe_not_chosen: true, 
+      show_modal: false,
+      search: '' });
 
     this.chosenRecipe = '';
     this.modalHandler = '';
@@ -33,6 +37,7 @@ export default class App extends React.Component {
     this.onDeleteRecipe = this.deleteRecipe.bind(this);
     this.onCloseModal = this.closeModal.bind(this);
     this.onDeletionModal = this.deleteionModal.bind(this);
+    this.onSearchChange = this.searchChange.bind(this);
   }
 
   componentDidMount() {
@@ -148,6 +153,11 @@ export default class App extends React.Component {
     this.setState({ show_modal: false });
   }
 
+  searchChange(event) {
+    event.preventDefault();
+    this.setState({ search: event.target.value });
+  }
+
   render () {
     const inputFormsList = this.state.data.map((form, id) => 
       <InputForm 
@@ -158,6 +168,13 @@ export default class App extends React.Component {
         onValueChange={this.onValueChange} 
         total={this.state.data[id].total} />
     );
+
+    let recipesList = this.getRecipiesList();
+    const regexp = new RegExp(this.state.search);
+    
+    if(this.state.search !== '') {
+      recipesList = recipesList.filter(el => regexp.test(el));
+    }
 
     return (
     <div className="App">
@@ -180,8 +197,13 @@ export default class App extends React.Component {
         </div>
       </div>
       <div className="right_panel">
+        <input
+          type="text"
+          className="search"
+          placeholder="Найти рецепт..."
+          onChange={this.onSearchChange}/>
         <RecipiesList 
-          recipies={this.getRecipiesList()}
+          recipies={recipesList}
           activeEl={this.chosenRecipe}
           onChoose={this.onChooseRecipe}/>
         <div className="buttons_wrapper">

@@ -103,6 +103,12 @@ span, input, button, div {
   border-left: solid 1px #000;
 }
 
+.right_panel .search {
+  width: 95%;
+  margin-bottom: 15px;
+  font-size: 17px;
+}
+
 .right_panel .recipies_list {
   width: 95%;
   height: 80vh;
@@ -128,18 +134,6 @@ span, input, button, div {
 
 .right_panel .recipies_list .selected:hover {
   background-color: #2e68e6;
-}
-
-.right_panel .recipies_list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.right_panel .recipies_list::-webkit-scrollbar-thumb {
-  background: #c4c4c4;
-}
-
-.right_panel .recipies_list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
 }
 
 .buttons_wrapper {
