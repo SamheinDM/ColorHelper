@@ -91,6 +91,10 @@ span, input, button, div {
       font-size: 17px;
       font-family: robotobold;
     }
+
+    .total_number {
+      color: #fff;
+    }
   }
 
 }
@@ -135,6 +139,19 @@ span, input, button, div {
       background-color: $recipies-list-selected;
     }
   }
+}
+
+.recipies_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recipies_list::-webkit-scrollbar-thumb {
+  background: rgb(196, 196, 196);
+  border-radius: 3px;
+}
+
+.recipies_list::-webkit-scrollbar-track {
+  background: #fff;
 }
 
 .buttons_wrapper {

@@ -8,77 +8,114 @@ fs.openSync(path.join(os.homedir(), '/db.json'), 'a+')
 const adapter = new FileSync(path.join(os.homedir(), '/db.json'))
 const db = low(adapter)
 
-db.defaults({ 
-  recipies: [
+const defaultRecipe =     {
+  name: "default",
+  data: [
     {
-      name: "default",
-      data: [
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        },
-        {
-          name: "",
-          ammount: "",
-          percent: "",
-          total: 0
-        }
-      ]
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
+    },
+    {
+      name: "",
+      ammount: "",
+      percent: "",
+      total: 0
     }
-  ] })
-  .write()
+  ]
+};
+
+db.defaults({ 
+  recipies: [defaultRecipe] })
+  .write();
 
 function getDefault() {
+  db.get('recipies')
+    .find({ name: 'default' })
+    .assign({ 
+      name: defaultRecipe.name,
+      data: defaultRecipe.data.map(el => Object.assign({}, el)) })
+    .write();
+
   return db.get('recipies')
     .find({ name: 'default' })
     .value();

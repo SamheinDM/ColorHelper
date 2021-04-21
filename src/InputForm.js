@@ -13,7 +13,7 @@ export default class InputForm extends React.Component {
       changeHolder={this.props.onValueChange} />);
     return <form id={this.props.id}>
       {inputList}
-      <span className="total">{`Итого: ${this.props.total} г`}</span>
+      <span className="total">Итого: <span className="total total_number">{`${this.props.total} г`}</span></span>
     </form>
   }
 }

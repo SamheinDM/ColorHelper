@@ -87,6 +87,10 @@ span, input, button, div {
   font-family: robotobold;
 }
 
+.left_panel .input_forms_wrapper .total_number {
+  color: #fff;
+}
+
 .right_panel {
   width: 30%;
   padding: 15px;
@@ -134,6 +138,19 @@ span, input, button, div {
 
 .right_panel .recipies_list .selected:hover {
   background-color: #2e68e6;
+}
+
+.recipies_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recipies_list::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 3px;
+}
+
+.recipies_list::-webkit-scrollbar-track {
+  background: #fff;
 }
 
 .buttons_wrapper {

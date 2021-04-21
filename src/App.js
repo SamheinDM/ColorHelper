@@ -81,12 +81,16 @@ export default class App extends React.Component {
   }
   
   updateTotal(index) {
-    const ammount = this.state.data[index].ammount === '' ? 0 : parseFloat(this.state.data[index].ammount);
-    const percent = this.state.data[index].percent === '' ? 0 : parseFloat(this.state.data[index].percent);
+    const oldAmmount = this.state.data[index].ammount;
+    const oldPercent = this.state.data[index].percent;
+
+    const ammount = oldAmmount === '' ? 0 : parseFloat(oldAmmount.replace(',', '.'));
+    const percent = oldPercent === '' ? 0 : parseFloat(oldPercent.replace(',', '.'));
   
     if (!Number.isNaN(ammount) && !Number.isNaN(percent)) {
       const total = ammount + (ammount * (percent / 100));
-      this.renewDataState('total', index, total);
+      const roundedTotal = + total.toFixed(1);
+      this.renewDataState('total', index, roundedTotal);
     }
   }
 
