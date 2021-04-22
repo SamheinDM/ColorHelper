@@ -6,7 +6,6 @@ import './App.css';
 import { ipcRenderer } from 'electron';
 import ErrorMessage from './ErrorMessage';
 import Modal from './Modal';
-import Input from './Input';
 
 export default class App extends React.Component {
   constructor (props) {
