@@ -82,7 +82,7 @@ span, input, button, div {
       font-size: 17px;
     }
 
-    input[placeholder="Количество"], input[placeholder="% отклонения"] {
+    form input + input {
       width: 120px;
     }
 
@@ -90,9 +90,6 @@ span, input, button, div {
       margin-left: 10px;
       font-size: 17px;
       font-family: robotobold;
-    }
-
-    .total_number {
       color: #fff;
     }
   }

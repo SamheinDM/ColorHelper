@@ -22,9 +22,9 @@ export default class App extends React.Component {
     this.modalHandler = '';
     this.modalMessage = '';
     this.inputs = [
-      { name: 'name', placeholder: 'Название' },
-      { name: 'ammount', placeholder: 'Количество' },
-      { name: 'percent', placeholder: '% отклонения' }];
+      { name: 'name' },
+      { name: 'ammount' },
+      { name: 'percent' }];
 
     this.onValueChange = this.valueChange.bind(this);
     this.onHideErrorMsg = this.hideErrorMsg.bind(this);
@@ -187,7 +187,6 @@ export default class App extends React.Component {
           <input 
             type="text"
             className="recipe_name"
-            placeholder="Название рецепта"
             value={ this.state.recipe_name }
             onChange={this.onNameChange}/>
           <ErrorMessage isShow={this.state.show_err_msg} text="Введите имя рецепта!"/>
@@ -204,7 +203,6 @@ export default class App extends React.Component {
         <input
           type="text"
           className="search"
-          placeholder="Найти рецепт..."
           onChange={this.onSearchChange}/>
         <RecipiesList 
           recipies={recipesList}

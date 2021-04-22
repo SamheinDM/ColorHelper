@@ -77,7 +77,7 @@ span, input, button, div {
   font-size: 17px;
 }
 
-.left_panel .input_forms_wrapper input[placeholder="Количество"], .left_panel .input_forms_wrapper input[placeholder="% отклонения"] {
+.left_panel .input_forms_wrapper form input + input {
   width: 120px;
 }
 
@@ -85,9 +85,6 @@ span, input, button, div {
   margin-left: 10px;
   font-size: 17px;
   font-family: robotobold;
-}
-
-.left_panel .input_forms_wrapper .total_number {
   color: #fff;
 }
 
